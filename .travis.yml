@@ -1,0 +1,6 @@
+language: python
+python:
+  - "3.6"
+script:
+  - python setup.py build bdist
+  - python setup.py test

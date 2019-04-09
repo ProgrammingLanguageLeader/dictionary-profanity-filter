@@ -1,0 +1,2 @@
+class ProfanityFilter:
+    pass
