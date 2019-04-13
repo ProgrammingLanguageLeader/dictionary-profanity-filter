@@ -1,16 +1,17 @@
+from typing import List, Sequence
 import os
 
 
 class ProfanityFilter:
     def __init__(
             self,
-            custom_censor_list: list = None,
-            extra_censor_list: list = None,
+            custom_censor_list: Sequence[str] = None,
+            extra_censor_list: Sequence[str] = None,
             no_word_boundaries: bool = False,
             censor_char: str = '*'
     ) -> None:
-        self._censor_list = custom_censor_list or []
-        self._extra_censor_list = extra_censor_list or []
+        self._censor_list = list(custom_censor_list or [])
+        self._extra_censor_list = list(extra_censor_list or [])
         self._no_word_boundaries = no_word_boundaries
         self._complete_censor_list = []
         self._censor_char = censor_char
@@ -31,26 +32,29 @@ class ProfanityFilter:
                 line.strip() for line in words_file.readlines()
             ]
 
-    def set_censor_char(self, character) -> None:
+    def set_censor_char(self, character: str) -> None:
         self._censor_char = character
 
-    def get_censor_list(self) -> list:
+    def get_censor_list(self) -> List[str]:
         return self._censor_list
 
-    def get_extra_censor_list(self) -> list:
+    def get_extra_censor_list(self) -> List[str]:
         return self._extra_censor_list
 
-    def add_word(self, word_list) -> None:
+    def add_words(self, words: Sequence[str]) -> None:
+        if isinstance(words, str):
+            self._extra_censor_list.append(words)
+            return
+        self._extra_censor_list += list(words)
+
+    def remove_word(self, word: str) -> None:
+        self._extra_censor_list.remove(word)
+
+    def censor(self, input_text: str) -> str:
         pass
 
-    def remove_word(self, word) -> None:
+    def is_clean(self, input_text: str) -> bool:
         pass
 
-    def censor(self, input_text) -> str:
-        pass
-
-    def is_clean(self, input_text) -> bool:
-        pass
-
-    def is_profane(self, input_text) -> bool:
+    def is_profane(self, input_text: str) -> bool:
         return not self.is_clean(input_text)
