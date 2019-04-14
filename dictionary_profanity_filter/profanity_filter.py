@@ -1,11 +1,22 @@
 from typing import List, Sequence
 import os
 import re
+import logging
 
+from alphabet_detector import AlphabetDetector
 import inflection
+import pymorphy2
 
 
 class ProfanityFilter:
+    logger = logging.getLogger('dictionary_profanity_filter')
+    logger.setLevel('INFO')
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    ))
+    logger.addHandler(handler)
+
     def __init__(
             self,
             custom_censor_list: Sequence[str] = None,
@@ -18,6 +29,7 @@ class ProfanityFilter:
         self._no_word_boundaries = no_word_boundaries
         self._complete_censor_list = []
         self._censor_char = censor_char
+        self._morph_analyzer = pymorphy2.MorphAnalyzer()
         if not custom_censor_list:
             self._load_words()
         self._complete_censor_list = self._calc_complete_censor_list()
@@ -40,11 +52,31 @@ class ProfanityFilter:
         complete_censor_list = []
         complete_censor_list.extend(self._censor_list)
         complete_censor_list.extend(self._extra_censor_list)
-        complete_censor_list.extend([
-            inflection.pluralize(word)
-            for word in complete_censor_list
-        ])
+        pluralized_words = self._pluralize_words(complete_censor_list)
+        complete_censor_list.extend(pluralized_words)
         return list(set(complete_censor_list))
+
+    def _pluralize_words(self, words: Sequence[str]) -> List[str]:
+        pluralized_words = []
+        alphabet_detector = AlphabetDetector()
+        if isinstance(words, str):
+            words = [words]
+        for word in words:
+            alphabets = alphabet_detector.detect_alphabet(word)
+            if 'LATIN' in alphabets:
+                pluralized_words.append(inflection.pluralize(word))
+            elif 'CYRILLIC' in alphabets:
+                parsed_word = self._morph_analyzer.parse(word)[0]
+                inflected_word = parsed_word.inflect({'plur'})
+                if inflected_word:
+                    pluralized_words.append(inflected_word.word)
+            else:
+                self.logger.warn(
+                    'Unsupported language for text: {}'.format(
+                        word
+                    )
+                )
+        return pluralized_words
 
     def set_censor_char(self, character: str) -> None:
         self._censor_char = character
@@ -60,13 +92,9 @@ class ProfanityFilter:
 
     def add_words(self, words: Sequence[str]) -> None:
         if isinstance(words, str):
-            self._extra_censor_list.append(words)
-            return
+            words = [words]
         self._extra_censor_list += list(words)
-        self._complete_censor_list.extend([
-            inflection.pluralize(word)
-            for word in words
-        ])
+        self._complete_censor_list += self._pluralize_words(words)
         self._complete_censor_list = list(set(self._complete_censor_list))
 
     def remove_word(self, word: str) -> None:
