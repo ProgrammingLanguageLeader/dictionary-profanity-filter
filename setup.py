@@ -1,7 +1,5 @@
 from setuptools import setup, find_packages
 
-print(open('README.md').read().strip())
-
 setup(
     name='dictionary-profanity-filter',
     version=open('VERSION').read().strip(),
@@ -19,5 +17,13 @@ setup(
             'dictionary-profanity-filter = '
                 'dictionary_profanity_filter.__main__:main',
         ]
-    }
+    },
+    url='https://github.com/ProgrammingLanguageLeader/'
+        'dictionary-profanity-filter',
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
 )

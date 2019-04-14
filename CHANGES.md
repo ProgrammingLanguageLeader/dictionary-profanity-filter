@@ -10,3 +10,8 @@ The first working version of the project
 ~~~~~
 The project description on PyPI fix
 ~~~~~
+
+1.0.2
+~~~~~
+Minor changes in setup.py
+~~~~~
