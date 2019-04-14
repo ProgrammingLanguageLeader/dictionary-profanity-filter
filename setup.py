@@ -14,7 +14,7 @@ setup(
     entry_points={
         'console_scripts': [
             'dictionary-profanity-filter = '
-            'dictionary-profanity-filter.__main__:main',
+                'dictionary_profanity_filter.__main__:main',
         ]
     }
 )
