@@ -93,13 +93,16 @@ class ProfanityFilter:
     def add_words(self, words: Sequence[str]) -> None:
         if isinstance(words, str):
             words = [words]
-        self._extra_censor_list += list(words)
+        words = list(words)
+        self._extra_censor_list += words
+        self._complete_censor_list += words
         self._complete_censor_list += self._pluralize_words(words)
         self._complete_censor_list = list(set(self._complete_censor_list))
 
     def remove_word(self, word: str) -> None:
         self._extra_censor_list.remove(word)
-        for pluralized_word in inflection.pluralize(word):
+        pluralized_words = self._pluralize_words(word)
+        for pluralized_word in pluralized_words:
             self._complete_censor_list.remove(pluralized_word)
         self._complete_censor_list.remove(word)
 
