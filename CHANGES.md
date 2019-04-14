@@ -1,6 +1,6 @@
 Changelog
 ---------
 
-0.1.0
+1.0.0
 ~~~~~
-The first version of the project
+The first working version of the project
