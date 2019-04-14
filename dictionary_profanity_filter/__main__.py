@@ -1,4 +1,4 @@
-from dictionary_profanity_filter.profanity_filter import ProfanityFilter
+from dictionary_profanity_filter import ProfanityFilter
 
 
 if __name__ == "__main__":
