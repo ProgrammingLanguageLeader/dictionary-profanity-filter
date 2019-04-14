@@ -123,7 +123,7 @@ class ProfanityFilter:
             regex_string = r'{0}' if self._no_word_boundaries else r'\b{0}\b'
             regex_string = regex_string.format(word)
             regex = re.compile(regex_string, re.IGNORECASE)
-            if re.match(regex, input_text):
+            if regex.search(input_text):
                 return False
         return True
 
