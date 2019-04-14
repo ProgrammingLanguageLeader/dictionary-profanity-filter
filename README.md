@@ -35,4 +35,4 @@ profanity_filter.censor('I hate censorship and blocking!')
 
 ## TODO
 - [ ] Write documentation
-- [ ] Write tests
+- [x] Write tests
