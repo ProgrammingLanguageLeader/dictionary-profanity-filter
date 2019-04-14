@@ -11,6 +11,7 @@ setup(
     long_description_content_type='text/markdown',
     packages=find_packages(),
     install_requires=open('requirements.txt').read().splitlines(),
+    include_package_data=True,
     test_suite='tests',
     entry_points={
         'console_scripts': [

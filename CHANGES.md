@@ -15,3 +15,8 @@ The project description on PyPI fix
 ~~~~~
 Minor changes in setup.py
 ~~~~~
+
+1.0.3
+~~~~~
+Installation from PyPI fix (problems with data directory)
+~~~~~

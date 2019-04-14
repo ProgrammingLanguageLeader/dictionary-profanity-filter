@@ -35,9 +35,7 @@ class ProfanityFilter:
         self._complete_censor_list = self._calc_complete_censor_list()
 
     def _load_words(self) -> None:
-        base_dir = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..')
-        )
+        base_dir = os.path.abspath(os.path.dirname(__file__))
         words_file_path = os.path.join(
             base_dir,
             'data',
