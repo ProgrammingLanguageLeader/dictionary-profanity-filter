@@ -1,6 +1,8 @@
 Dictionary Profanity Filter
 ==========================
 
+[![Build Status](https://travis-ci.com/ProgrammingLanguageLeader/dictionary-profanity-filter.svg?token=NAXdZ3urs2rzWv4x9zhq&branch=master)](https://travis-ci.com/ProgrammingLanguageLeader/dictionary-profanity-filter)
+
 Python module for profanity filtering using dictionaries. 
 It supports English and Russian languages out-of-the-box.
 
