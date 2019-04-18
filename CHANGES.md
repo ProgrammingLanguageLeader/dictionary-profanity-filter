@@ -20,3 +20,8 @@ Minor changes in setup.py
 ~~~~~
 Installation from PyPI fix (problems with data directory)
 ~~~~~
+
+1.0.4
+~~~~~
+Filtering using word cases
+~~~~~
