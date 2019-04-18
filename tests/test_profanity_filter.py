@@ -5,7 +5,7 @@ from dictionary_profanity_filter import ProfanityFilter
 
 class TestProfanityFilter(unittest.TestCase):
     def setUp(self):
-        self.profanity_filter = ProfanityFilter()
+        self.profanity_filter = ProfanityFilter(use_word_cases=True)
 
     def test_is_clean(self):
         self.assertEqual(
@@ -38,7 +38,7 @@ class TestProfanityFilter(unittest.TestCase):
         )
 
     def test_set_censor_char(self):
-        self.profanity_filter.set_censor_char('#')
+        self.profanity_filter.censor_char = '#'
         self.assertEqual(
             self.profanity_filter.censor('Fuck you'),
             '#### you'
